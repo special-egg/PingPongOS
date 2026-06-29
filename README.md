@@ -1,29 +1,17 @@
-🏓 PingPongOS
+# PingPongOS
 
-AI-powered table tennis training assistant.
+PingPongOS is an open-source AI project for building a table tennis training assistant. The long-term goal is to help players organize practice videos, detect rallies, and generate useful AI coaching feedback.
 
-Features
+## Current Development Stage
 
-✅ Auto video splitting
+Sprint 0: Project Initialization
 
-✅ Rally detection
+This sprint sets up a clean Python project structure with source, test, input, output, and report directories. No video processing has been implemented yet.
 
-✅ Forehand / Backhand classification
+## Planned Roadmap
 
-✅ Match organization
-
-✅ AI coaching reports
-
-Roadmap
-
-V1
-Video Splitter
-
-V2
-Pose Analysis
-
-V3
-GPT Coach
-
-V4
-Training Knowledge Base
+- V0.1 Project Initialization
+- V0.2 Video Loader
+- V0.3 Video Splitter
+- V0.4 Rally Detection
+- V0.5 AI Coaching Report
