@@ -216,3 +216,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# PingPongOS local video inputs
+input_videos/*.mp4
+input_videos/*.mov
+input_videos/*.avi
+input_videos/*.mkv
+
+# PingPongOS AI model artifacts
+models/
+
+# PingPongOS generated outputs
+output/*
+!output/.gitkeep
+# Python virtual environment
+# Python virtual environment
+.venv/
+venv/

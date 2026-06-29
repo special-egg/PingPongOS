@@ -4,9 +4,32 @@ PingPongOS is an open-source AI project for building a table tennis training ass
 
 ## Current Development Stage
 
-Sprint 0: Project Initialization
+Sprint 1: Video Loader
 
-This sprint sets up a clean Python project structure with source, test, input, output, and report directories. No video processing has been implemented yet.
+This sprint adds the first real feature: scanning supported videos in `input_videos` and printing basic metadata. Video splitting and AI analysis are not implemented yet.
+
+## Sprint 1: Video Loader
+
+Place table tennis videos in the `input_videos` folder. The scanner currently supports:
+
+- `.mp4`
+- `.mov`
+- `.avi`
+- `.mkv`
+
+Run the scanner from the project root:
+
+```bash
+python scripts/scan_videos.py
+```
+
+On Windows, if `python` opens the Microsoft Store launcher, use:
+
+```bash
+py scripts/scan_videos.py
+```
+
+The script prints a readable terminal table with each video's file name, path, duration, FPS, width, and height.
 
 ## Planned Roadmap
 
