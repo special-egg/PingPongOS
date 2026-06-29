@@ -3,7 +3,51 @@ import cv2
 
 WINDOW_NAME = "PingPongOS Player"
 DEFAULT_FPS = 30
+TEXT_COLOR = (0, 255, 0)
+TEXT_SCALE = 1
+TEXT_THICKNESS = 2
 FRAME_LABEL_POSITION = (20, 40)
+TIME_LABEL_POSITION = (20, 80)
+
+
+def format_timestamp(seconds: float) -> str:
+    """Format seconds as MM:SS.xx."""
+    minutes = int(seconds // 60)
+    remaining_seconds = seconds % 60
+    return f"{minutes:02d}:{remaining_seconds:05.2f}"
+
+
+def draw_timeline(
+    frame,
+    frame_index: int,
+    fps: float,
+    total_duration_seconds: float,
+):
+    current_timestamp = frame_index / fps
+    cv2.putText(
+        frame,
+        f"Frame: {frame_index}",
+        FRAME_LABEL_POSITION,
+        cv2.FONT_HERSHEY_SIMPLEX,
+        TEXT_SCALE,
+        TEXT_COLOR,
+        TEXT_THICKNESS,
+        cv2.LINE_AA,
+    )
+    cv2.putText(
+        frame,
+        (
+            f"Time: {format_timestamp(current_timestamp)} / "
+            f"{format_timestamp(total_duration_seconds)}"
+        ),
+        TIME_LABEL_POSITION,
+        cv2.FONT_HERSHEY_SIMPLEX,
+        TEXT_SCALE,
+        TEXT_COLOR,
+        TEXT_THICKNESS,
+        cv2.LINE_AA,
+    )
+    return frame
 
 
 def play_video(video_path: str) -> None:
@@ -18,6 +62,8 @@ def play_video(video_path: str) -> None:
         fps = DEFAULT_FPS
 
     frame_delay = max(1, int(1000 / fps))
+    frame_count = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+    total_duration_seconds = frame_count / fps if fps > 0 else 0
     paused = False
     frame_index = 0
     current_frame = None
@@ -31,15 +77,11 @@ def play_video(video_path: str) -> None:
 
                 frame_index += 1
                 current_frame = frame.copy()
-                cv2.putText(
+                current_frame = draw_timeline(
                     current_frame,
-                    f"Frame: {frame_index}",
-                    FRAME_LABEL_POSITION,
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    1,
-                    (0, 255, 0),
-                    2,
-                    cv2.LINE_AA,
+                    frame_index,
+                    fps,
+                    total_duration_seconds,
                 )
                 cv2.imshow(WINDOW_NAME, current_frame)
             elif current_frame is not None:
