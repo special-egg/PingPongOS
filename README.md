@@ -4,9 +4,9 @@ PingPongOS is an open-source AI project for building a table tennis training ass
 
 ## Current Development Stage
 
-Sprint 4: Video Timeline
+Sprint 5: Frame Snapshot Export
 
-This sprint adds a timeline layer to OpenCV playback. The player now shows frame position and timestamps while preserving FPS-based playback, pause, and quit controls. Video splitting and AI analysis are not implemented yet.
+This sprint adds snapshot export to OpenCV playback. The player can save the current displayed frame while preserving FPS-based playback, pause, frame index, and timestamp controls. Video splitting and AI analysis are not implemented yet.
 
 ## Sprint 1: Video Loader
 
@@ -56,12 +56,35 @@ Playback controls:
 
 The timestamp format is `MM:SS.xx`, such as `00:08.37 / 00:18.23`.
 
+## Sprint 5: Frame Snapshot Export
+
+While the player is running, press `s` to save the current displayed frame as a PNG image.
+
+Snapshots are saved to:
+
+```text
+output/snapshots/
+```
+
+Snapshot files use this naming format:
+
+```text
+snapshot_frame_000123.png
+```
+
+Playback controls:
+
+- Press `Space` to pause or resume.
+- Press `s` to save the current frame.
+- Press `q` to quit.
+
 ## Planned Roadmap
 
 - V0.1 Project Initialization
 - V0.2 Video Loader
 - V0.3 Video Player / Frame Reader
 - V0.4 Video Timeline
-- V0.5 Video Splitter
-- V0.6 Rally Detection
-- V0.7 AI Coaching Report
+- V0.5 Frame Snapshot Export
+- V0.6 Video Splitter
+- V0.7 Rally Detection
+- V0.8 AI Coaching Report

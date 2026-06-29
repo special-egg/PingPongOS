@@ -1,8 +1,11 @@
+from pathlib import Path
+
 import cv2
 
 
 WINDOW_NAME = "PingPongOS Player"
 DEFAULT_FPS = 30
+SNAPSHOT_DIR = Path("output") / "snapshots"
 TEXT_COLOR = (0, 255, 0)
 TEXT_SCALE = 1
 TEXT_THICKNESS = 2
@@ -50,6 +53,14 @@ def draw_timeline(
     return frame
 
 
+def save_snapshot(frame, frame_index: int) -> None:
+    """Save the current displayed frame as a PNG snapshot."""
+    SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+    snapshot_path = SNAPSHOT_DIR / f"snapshot_frame_{frame_index:06d}.png"
+    cv2.imwrite(str(snapshot_path), frame)
+    print(f"Saved snapshot: {snapshot_path}")
+
+
 def play_video(video_path: str) -> None:
     """Open a video and display it frame by frame."""
     capture = cv2.VideoCapture(video_path)
@@ -92,6 +103,8 @@ def play_video(video_path: str) -> None:
                 break
             if key == ord(" "):
                 paused = not paused
+            if key == ord("s") and current_frame is not None:
+                save_snapshot(current_frame, frame_index)
     finally:
         capture.release()
         cv2.destroyAllWindows()
