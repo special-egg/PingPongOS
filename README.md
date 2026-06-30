@@ -4,9 +4,9 @@ PingPongOS is an open-source AI project for building a table tennis training ass
 
 ## Current Development Stage
 
-Sprint 8: Video Splitter
+Sprint 9: Clip Manager
 
-This sprint adds a reusable video clipping module. PingPongOS can now save a selected time range from a source video while preserving FPS and resolution. AI analysis is not implemented yet.
+This sprint adds clip management for generated clips. PingPongOS can now scan `output/clips`, print clip metadata, and save a CSV index. AI analysis is not implemented yet.
 
 ## Sprint 1: Video Loader
 
@@ -144,6 +144,49 @@ The demo scans `input_videos`, opens the first supported video, clips from `2.0`
 output/clips/demo_clip.mp4
 ```
 
+## Sprint 9: Clip Manager
+
+PingPongOS now includes a clip manager that scans generated clips and builds an index.
+
+Run the manager from the project root:
+
+```bash
+python scripts/manage_clips.py
+```
+
+On Windows, if `python` opens the Microsoft Store launcher, use:
+
+```bash
+py scripts/manage_clips.py
+```
+
+The script scans:
+
+```text
+output/clips/
+```
+
+It prints a readable table and saves:
+
+```text
+output/clips/clips.csv
+```
+
+The clip index includes stable fields for future analysis and labeling:
+
+- `clip_name`
+- `clip_path`
+- `source_video`
+- `start_seconds`
+- `end_seconds`
+- `start_frame`
+- `end_frame`
+- `label`
+- `duration_seconds`
+- `fps`
+- `width`
+- `height`
+
 ## Planned Roadmap
 
 - V0.1 Project Initialization
@@ -154,5 +197,6 @@ output/clips/demo_clip.mp4
 - V0.6 Snapshot Index Log
 - V0.7 Frame Iterator
 - V0.8 Video Splitter
-- V0.9 Rally Detection
-- V0.10 AI Coaching Report
+- V0.9 Clip Manager
+- V0.10 Rally Detection
+- V0.11 AI Coaching Report
