@@ -4,9 +4,9 @@ PingPongOS is an open-source AI project for building a table tennis training ass
 
 ## Current Development Stage
 
-Sprint 7: Frame Iterator
+Sprint 8: Video Splitter
 
-This sprint adds a reusable frame iterator for future analysis workflows. It reads video frames without opening a player window and yields frame metadata for downstream tools. Video splitting and AI analysis are not implemented yet.
+This sprint adds a reusable video clipping module. PingPongOS can now save a selected time range from a source video while preserving FPS and resolution. AI analysis is not implemented yet.
 
 ## Sprint 1: Video Loader
 
@@ -117,6 +117,32 @@ py scripts/iterate_video.py
 ```
 
 The demo scans `input_videos`, opens the first supported video, prints the first 20 frame timestamps, and exits without displaying an OpenCV window.
+
+## Sprint 8: Video Splitter
+
+PingPongOS now includes a reusable video splitter:
+
+```python
+split_video(input_video, output_video, start_seconds, end_seconds)
+```
+
+Run the demo from the project root:
+
+```bash
+python scripts/split_video.py
+```
+
+On Windows, if `python` opens the Microsoft Store launcher, use:
+
+```bash
+py scripts/split_video.py
+```
+
+The demo scans `input_videos`, opens the first supported video, clips from `2.0` seconds to `5.0` seconds, and saves:
+
+```text
+output/clips/demo_clip.mp4
+```
 
 ## Planned Roadmap
 
