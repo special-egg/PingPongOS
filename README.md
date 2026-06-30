@@ -4,9 +4,9 @@ PingPongOS is an open-source AI project for building a table tennis training ass
 
 ## Current Development Stage
 
-Sprint 5: Frame Snapshot Export
+Sprint 7: Frame Iterator
 
-This sprint adds snapshot export to OpenCV playback. The player can save the current displayed frame while preserving FPS-based playback, pause, frame index, and timestamp controls. Video splitting and AI analysis are not implemented yet.
+This sprint adds a reusable frame iterator for future analysis workflows. It reads video frames without opening a player window and yields frame metadata for downstream tools. Video splitting and AI analysis are not implemented yet.
 
 ## Sprint 1: Video Loader
 
@@ -78,6 +78,46 @@ Playback controls:
 - Press `s` to save the current frame.
 - Press `q` to quit.
 
+## Sprint 6: Snapshot Index Log
+
+Each time you press `s`, PingPongOS saves the current frame and appends metadata to:
+
+```text
+output/snapshots/snapshots.csv
+```
+
+The snapshot index includes:
+
+- `snapshot_file`
+- `source_video`
+- `frame_index`
+- `timestamp_seconds`
+- `timestamp_label`
+
+The CSV file is created automatically with headers the first time a snapshot is saved.
+
+## Sprint 7: Frame Iterator
+
+PingPongOS now includes a reusable frame iterator that yields:
+
+- `frame`
+- `frame_index`
+- `timestamp_seconds`
+
+Run the iterator demo from the project root:
+
+```bash
+python scripts/iterate_video.py
+```
+
+On Windows, if `python` opens the Microsoft Store launcher, use:
+
+```bash
+py scripts/iterate_video.py
+```
+
+The demo scans `input_videos`, opens the first supported video, prints the first 20 frame timestamps, and exits without displaying an OpenCV window.
+
 ## Planned Roadmap
 
 - V0.1 Project Initialization
@@ -85,6 +125,8 @@ Playback controls:
 - V0.3 Video Player / Frame Reader
 - V0.4 Video Timeline
 - V0.5 Frame Snapshot Export
-- V0.6 Video Splitter
-- V0.7 Rally Detection
-- V0.8 AI Coaching Report
+- V0.6 Snapshot Index Log
+- V0.7 Frame Iterator
+- V0.8 Video Splitter
+- V0.9 Rally Detection
+- V0.10 AI Coaching Report

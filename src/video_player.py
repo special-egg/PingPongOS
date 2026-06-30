@@ -1,3 +1,4 @@
+import csv
 from pathlib import Path
 
 import cv2
@@ -6,6 +7,14 @@ import cv2
 WINDOW_NAME = "PingPongOS Player"
 DEFAULT_FPS = 30
 SNAPSHOT_DIR = Path("output") / "snapshots"
+SNAPSHOT_INDEX_PATH = SNAPSHOT_DIR / "snapshots.csv"
+SNAPSHOT_INDEX_HEADERS = [
+    "snapshot_file",
+    "source_video",
+    "frame_index",
+    "timestamp_seconds",
+    "timestamp_label",
+]
 TEXT_COLOR = (0, 255, 0)
 TEXT_SCALE = 1
 TEXT_THICKNESS = 2
@@ -53,11 +62,45 @@ def draw_timeline(
     return frame
 
 
-def save_snapshot(frame, frame_index: int) -> None:
+def append_snapshot_index(
+    snapshot_path: Path,
+    source_video: str,
+    frame_index: int,
+    timestamp_seconds: float,
+    timestamp_label: str,
+) -> None:
+    should_write_headers = not SNAPSHOT_INDEX_PATH.exists()
+    with SNAPSHOT_INDEX_PATH.open("a", newline="", encoding="utf-8") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=SNAPSHOT_INDEX_HEADERS)
+        if should_write_headers:
+            writer.writeheader()
+
+        writer.writerow(
+            {
+                "snapshot_file": str(snapshot_path),
+                "source_video": source_video,
+                "frame_index": frame_index,
+                "timestamp_seconds": f"{timestamp_seconds:.2f}",
+                "timestamp_label": timestamp_label,
+            }
+        )
+
+
+def save_snapshot(frame, source_video: str, frame_index: int, fps: float) -> None:
     """Save the current displayed frame as a PNG snapshot."""
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
     snapshot_path = SNAPSHOT_DIR / f"snapshot_frame_{frame_index:06d}.png"
+    timestamp_seconds = frame_index / fps
+    timestamp_label = format_timestamp(timestamp_seconds)
+
     cv2.imwrite(str(snapshot_path), frame)
+    append_snapshot_index(
+        snapshot_path,
+        source_video,
+        frame_index,
+        timestamp_seconds,
+        timestamp_label,
+    )
     print(f"Saved snapshot: {snapshot_path}")
 
 
@@ -104,7 +147,7 @@ def play_video(video_path: str) -> None:
             if key == ord(" "):
                 paused = not paused
             if key == ord("s") and current_frame is not None:
-                save_snapshot(current_frame, frame_index)
+                save_snapshot(current_frame, video_path, frame_index, fps)
     finally:
         capture.release()
         cv2.destroyAllWindows()
